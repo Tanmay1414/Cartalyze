@@ -1,20 +1,23 @@
-import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
-import { ComparePage } from '@/components/compare-page';
+import { Navbar } from "@/components/navbar";
+import { ComparePage } from "@/components/compare-page";
 
-export const metadata = {
-  title: 'Compare Products - Cartalyze',
-  description: 'Compare prices across multiple e-commerce platforms with AI-driven insights',
-};
+export default async function CompareRoute({
+  searchParams,
+}: {
+  // Update the type to expect a Promise (Next.js 16 standard)
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  // AWAIT the search parameters before trying to read the 'q' value!
+  const params = await searchParams;
+  const query = typeof params.q === 'string' ? params.q : "";
 
-export default function Page() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       <main className="flex-1">
-        <ComparePage />
+        {/* Pass the extracted query down to your UI component */}
+        <ComparePage initialQuery={query} />
       </main>
-      <Footer />
     </div>
   );
 }
